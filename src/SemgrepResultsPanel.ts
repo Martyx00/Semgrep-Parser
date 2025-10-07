@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs/promises';
 
+
+
 /**
  * Defines the structure for a result item.
  */
@@ -18,6 +20,7 @@ interface SemgrepResult {
     // Unique ID for internal tracking in the extension/webview
     id: string; 
 }
+
 
 /**
  * Manages the Semgrep Triage Webview Panel.
@@ -164,7 +167,7 @@ export class SemgrepResultsPanel {
 
             await vscode.window.showTextDocument(document, {
                 selection: range,
-                viewColumn: vscode.ViewColumn.One // Open in the first column
+                viewColumn: vscode.ViewColumn.Beside // Open in the first column
             });
 
         } catch (error) {
@@ -297,7 +300,12 @@ export class SemgrepResultsPanel {
                     }
                     .action-button.action-fp { background-color: var(--vscode-terminal-ansiGreen); }
                     .action-button.action-issue { background-color: var(--vscode-errorForeground); }
-                    .action-button:hover { background-color: var(--vscode-button-hoverBackground)
+                    .action-button:hover { background-color: var(--vscode-button-hoverBackground); }
+
+                    .selected {
+                        background-color: #6e6e6eff;
+                        color: #fff;
+                    }
                 </style>
             </head>
             <body>
@@ -356,12 +364,18 @@ export class SemgrepResultsPanel {
                         // Actions (buttons)
                         const actionsTd = document.createElement('td');
                         actionsTd.classList.add('actions');
-                        
+                    
+
                         // Go To Button
                         const goToBtn = document.createElement('button');
                         goToBtn.className = "action-button";
                         goToBtn.textContent = 'Go To';
                         goToBtn.onclick = () => {
+                            selected_items = document.getElementsByClassName("selected");
+                            Array.from(document.querySelectorAll('.selected')).forEach(
+                                (el) => el.classList.remove('selected')
+                            );
+                            tr.className = "selected";
                             vscode.postMessage({
                                 command: 'goTo',
                                 data: {
