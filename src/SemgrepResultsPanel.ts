@@ -287,6 +287,17 @@ export class SemgrepResultsPanel {
                     .severity-ERROR { color: var(--vscode-errorForeground); font-weight: bold; }
                     .severity-WARNING { color: var(--vscode-list-warningForeground); font-weight: bold; }
                     .severity-INFO { color: var(--vscode-list-deemphasizedForeground); }
+                    .action-button {
+                        background-color: var(--vscode-button-background);
+                        color: var(--vscode-button-foreground);
+                        border: none;
+                        padding: 5px 10px;
+                        margin-right: 5px;
+                        cursor: pointer;
+                    }
+                    .action-button.action-fp { background-color: var(--vscode-terminal-ansiGreen); }
+                    .action-button.action-issue { background-color: var(--vscode-errorForeground); }
+                    .action-button:hover { background-color: var(--vscode-button-hoverBackground)
                 </style>
             </head>
             <body>
@@ -348,6 +359,7 @@ export class SemgrepResultsPanel {
                         
                         // Go To Button
                         const goToBtn = document.createElement('button');
+                        goToBtn.className = "action-button";
                         goToBtn.textContent = 'Go To';
                         goToBtn.onclick = () => {
                             vscode.postMessage({
@@ -364,6 +376,7 @@ export class SemgrepResultsPanel {
                         // Issue Button (show only if NOT already in Issues)
                         if (currentCategory !== 'issues') {
                             const issueBtn = document.createElement('button');
+                            issueBtn.className = "action-button action-issue";
                             issueBtn.textContent = 'Issue';
                             issueBtn.onclick = () => triageItem(item.id, currentCategory, 'issues');
                             actionsTd.appendChild(issueBtn);
@@ -372,6 +385,7 @@ export class SemgrepResultsPanel {
                         // False Positive Button (show only if NOT already in False Positives)
                         if (currentCategory !== 'falsePositives') {
                             const fpBtn = document.createElement('button');
+                            fpBtn.className = "action-button action-fp";
                             fpBtn.textContent = 'False Positive';
                             fpBtn.onclick = () => triageItem(item.id, currentCategory, 'falsePositives');
                             actionsTd.appendChild(fpBtn);
