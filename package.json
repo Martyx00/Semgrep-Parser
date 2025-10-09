@@ -1,8 +1,9 @@
 {
   "name": "semgrepparser",
   "displayName": "SemgrepParser",
-  "description": "",
-  "version": "0.0.1",
+  "description": "Extension to parse JSON output of the Semgrep scans.",
+  "version": "1.0.0",
+  "repository": "https://github.com/Martyx00/Semgrep-Parser",
   "engines": {
     "vscode": "^1.104.0"
   },
